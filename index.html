@@ -3,91 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#24292e" />
+  <meta name="theme-color" content="#23272e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="fx-100MS" />
   <title>CASIO fx-100MS (S-V.P.A.M.)</title>
+  <link rel="manifest" href="./manifest.json" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600;800&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@600;700;800&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       user-select: none;
       -webkit-user-select: none;
       -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
     body {
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
       font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
     }
     .calc-casing {
-      background: linear-gradient(145deg, #323842 0%, #22262e 50%, #1a1d24 100%);
+      background: linear-gradient(145deg, #343a44 0%, #242830 50%, #191c22 100%);
       box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.85),
-        inset 0 2px 3px rgba(255, 255, 255, 0.15),
-        inset 0 -4px 6px rgba(0, 0, 0, 0.6);
-      border: 2px solid #16191f;
+        0 28px 60px rgba(0, 0, 0, 0.9),
+        inset 0 2px 3px rgba(255, 255, 255, 0.18),
+        inset 0 -5px 8px rgba(0, 0, 0, 0.7);
+      border: 2.5px solid #14171c;
     }
     .lcd-bezel {
-      background: linear-gradient(180deg, #181b20 0%, #252a32 100%);
-      box-shadow: inset 0 3px 6px rgba(0,0,0,0.85), 0 1px 1px rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, #171a20 0%, #262b34 100%);
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.1);
     }
     .lcd-screen {
       background-color: #9ead86;
-      background-image: linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(255,255,255,0.04) 100%);
-      box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(60, 75, 45, 0.25);
-      border: 2px solid #5a6649;
+      background-image: 
+        linear-gradient(rgba(18, 26, 14, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(18, 26, 14, 0.03) 1px, transparent 1px);
+      background-size: 3px 3px;
+      box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5), inset 0 0 14px rgba(50, 65, 35, 0.3);
+      border: 2px solid #576346;
     }
+    /* Authentic Top Dot-Matrix Font */
     .font-matrix {
-      font-family: 'Share Tech Mono', monospace;
-      letter-spacing: 0.06em;
+      font-family: 'VT323', monospace;
+      letter-spacing: 0.08em;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
     }
+    /* Authentic Bottom 7-Segment Font */
     .font-segment {
       font-family: 'Orbitron', monospace;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
+      text-shadow: 0 1.5px 0 rgba(0, 0, 0, 0.14);
     }
     .solar-panel {
       background: repeating-linear-gradient(
         90deg,
-        #3b2314,
-        #3b2314 14px,
-        #523320 14px,
-        #523320 15px
+        #382112,
+        #382112 15px,
+        #52321e 15px,
+        #52321e 16.5px
       );
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
-      border: 1.5px solid #1a1412;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.12);
+      border: 1.5px solid #181210;
     }
     .btn-small {
-      background: linear-gradient(180deg, #434b57 0%, #2d333d 100%);
-      box-shadow: 0 3px 0 #171a20, 0 4px 5px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.2);
-      transition: all 0.06s ease;
+      background: linear-gradient(180deg, #454d59 0%, #2c323b 100%);
+      box-shadow: 0 3px 0 #15181e, 0 4px 5px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.22);
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
     }
     .btn-small:active {
       transform: translateY(2px);
-      box-shadow: 0 1px 0 #171a20, 0 2px 2px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
+      box-shadow: 0 1px 0 #15181e, 0 2px 2px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
     }
     .btn-num {
-      background: linear-gradient(180deg, #5a6270 0%, #404752 100%);
-      box-shadow: 0 4px 0 #1e2229, 0 5px 6px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.25);
-      transition: all 0.06s ease;
+      background: linear-gradient(180deg, #5c6573 0%, #404752 100%);
+      box-shadow: 0 4px 0 #1c2026, 0 5px 6px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.28);
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
     }
     .btn-num:active {
       transform: translateY(3px);
-      box-shadow: 0 1px 0 #1e2229, 0 2px 3px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+      box-shadow: 0 1px 0 #1c2026, 0 2px 3px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.2);
     }
     .btn-ac {
-      background: linear-gradient(180deg, #c84b61 0%, #9e3044 100%);
-      box-shadow: 0 4px 0 #591622, 0 5px 6px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.3);
-      transition: all 0.06s ease;
+      background: linear-gradient(180deg, #cc4b62 0%, #9b2d41 100%);
+      box-shadow: 0 4px 0 #551420, 0 5px 6px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.32);
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
     }
     .btn-ac:active {
       transform: translateY(3px);
-      box-shadow: 0 1px 0 #591622, 0 2px 3px rgba(0,0,0,0.4);
+      box-shadow: 0 1px 0 #551420, 0 2px 3px rgba(0,0,0,0.45);
     }
     .replay-pad {
-      background: linear-gradient(145deg, #3f4754, #282d36);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.2);
-      border: 2px solid #1c2026;
+      background: linear-gradient(145deg, #414956, #272c35);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.22);
+      border: 2px solid #1b1f26;
     }
     @keyframes blink {
       0%, 49% { opacity: 1; }
@@ -100,8 +111,8 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
 
-  <!-- Install App Floating Bar (Shows automatically when installable) -->
-  <div id="installBanner" class="hidden fixed top-3 z-50 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 cursor-pointer transition transform active:scale-95 border border-emerald-400">
+  <!-- Install App Floating Bar -->
+  <div id="installBanner" class="hidden fixed top-3 z-50 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-full shadow-xl flex items-center gap-2 cursor-pointer transition transform active:scale-95 border border-emerald-400">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
     </svg>
@@ -109,14 +120,14 @@
   </div>
 
   <!-- Calculator Body -->
-  <div class="calc-casing w-full max-w-[380px] rounded-[34px] p-4 sm:p-5 flex flex-col gap-3 relative">
+  <div class="calc-casing w-full max-w-[385px] rounded-[34px] p-4 sm:p-5 flex flex-col gap-3 relative">
     
     <!-- Top Branding & Solar Panel -->
     <div class="flex justify-between items-start px-1 pt-1">
       <div class="flex flex-col">
         <span class="text-white font-extrabold text-lg tracking-wider leading-none">CASIO</span>
         <span class="text-gray-300 font-bold italic text-xs tracking-wide mt-0.5">fx-100MS</span>
-        <span class="text-[#d97757] font-extrabold text-[10px] tracking-widest mt-1">S-V.P.A.M.</span>
+        <span class="text-[#e07b58] font-extrabold text-[10px] tracking-widest mt-1">S-V.P.A.M.</span>
       </div>
       <div class="flex flex-col items-end">
         <div class="solar-panel w-28 h-8 rounded-md"></div>
@@ -126,35 +137,35 @@
 
     <!-- LCD Display Screen -->
     <div class="lcd-bezel p-2.5 rounded-xl">
-      <div class="lcd-screen h-24 rounded-lg p-2 flex flex-col justify-between text-[#141c10] relative overflow-hidden">
+      <div class="lcd-screen h-[102px] rounded-lg px-2.5 py-1.5 flex flex-col justify-between text-[#11190d] relative overflow-hidden">
         
         <!-- Status Indicators Row -->
-        <div class="flex justify-between items-center text-[9px] font-bold tracking-tighter border-b border-[#889870] pb-0.5 leading-none">
-          <div class="flex gap-1.5">
-            <span id="ind-shift" class="opacity-15 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">S</span>
-            <span id="ind-alpha" class="opacity-15 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">A</span>
+        <div class="flex justify-between items-center text-[9.5px] font-extrabold tracking-tight border-b border-[#85946e] pb-0.5 leading-none">
+          <div class="flex gap-1.5 items-center">
+            <span id="ind-shift" class="opacity-15 bg-[#11190d] text-[#9ead86] px-1 py-[1px] rounded-[2px]">S</span>
+            <span id="ind-alpha" class="opacity-15 bg-[#11190d] text-[#9ead86] px-1 py-[1px] rounded-[2px]">A</span>
             <span id="ind-m" class="opacity-15">M</span>
             <span id="ind-sto" class="opacity-15">STO</span>
             <span id="ind-rcl" class="opacity-15">RCL</span>
             <span id="ind-hyp" class="opacity-15">HYP</span>
           </div>
-          <div class="flex gap-1.5">
+          <div class="flex gap-1.5 items-center">
             <span id="ind-mode" class="opacity-100">COMP</span>
-            <span id="ind-angle" class="opacity-100 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">D</span>
+            <span id="ind-angle" class="opacity-100 bg-[#11190d] text-[#9ead86] px-1 py-[1px] rounded-[2px]">D</span>
             <span id="ind-fix" class="opacity-15">FIX</span>
             <span id="ind-sci" class="opacity-15">SCI</span>
           </div>
         </div>
 
         <!-- Upper Dot-Matrix Expression Line -->
-        <div id="exprDisplay" class="font-matrix text-base sm:text-lg leading-tight h-7 overflow-x-auto whitespace-nowrap flex items-center">
+        <div id="exprDisplay" class="font-matrix text-[24px] leading-none h-7 overflow-x-auto whitespace-nowrap flex items-center pt-0.5">
           <span id="exprLeft"></span><span id="cursor" class="cursor-blink font-bold">_</span><span id="exprRight"></span>
         </div>
 
         <!-- Lower 7-Segment Result Line -->
-        <div class="flex justify-end items-baseline h-8 pr-1">
-          <div id="resDisplay" class="font-segment text-xl sm:text-2xl font-extrabold tracking-wider text-right truncate">0.</div>
-          <div id="expDisplay" class="font-segment text-xs font-bold ml-1"></div>
+        <div class="flex justify-end items-baseline h-8 pr-0.5">
+          <div id="resDisplay" class="font-segment text-[23px] sm:text-[25px] font-extrabold tracking-wider text-right truncate">0.</div>
+          <div id="expDisplay" class="font-segment text-[12px] font-extrabold ml-1"></div>
         </div>
 
       </div>
@@ -162,35 +173,33 @@
 
     <!-- Top Control Row + Replay D-Pad -->
     <div class="grid grid-cols-5 items-center gap-1.5 my-0.5">
-      <!-- Left 2 Buttons (SHIFT, ALPHA) -->
       <div class="flex flex-col items-center">
         <span class="text-[9px] font-bold text-[#e69f45] mb-0.5">SHIFT</span>
-        <button onclick="pressShift()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+        <button onclick="pressShift()" class="btn-small w-full h-7 rounded-full"></button>
       </div>
       <div class="flex flex-col items-center">
         <span class="text-[9px] font-bold text-[#d45d79] mb-0.5">ALPHA</span>
-        <button onclick="pressAlpha()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+        <button onclick="pressAlpha()" class="btn-small w-full h-7 rounded-full"></button>
       </div>
 
       <!-- Center Replay Pad -->
       <div class="flex justify-center">
         <div class="replay-pad w-16 h-14 rounded-full relative flex items-center justify-center">
-          <span class="text-[7px] text-gray-400 font-bold tracking-widest pointer-events-none">REPLAY</span>
-          <button onclick="moveCursor('UP')" class="absolute top-0.5 inset-x-3 h-4 flex justify-center items-start text-[9px] text-gray-300 hover:text-white active:scale-90">▲</button>
-          <button onclick="moveCursor('DOWN')" class="absolute bottom-0.5 inset-x-3 h-4 flex justify-center items-end text-[9px] text-gray-300 hover:text-white active:scale-90">▼</button>
-          <button onclick="moveCursor('LEFT')" class="absolute left-0.5 inset-y-3 w-4 flex items-center justify-start text-[9px] text-gray-300 hover:text-white active:scale-90">◀</button>
-          <button onclick="moveCursor('RIGHT')" class="absolute right-0.5 inset-y-3 w-4 flex items-center justify-end text-[9px] text-gray-300 hover:text-white active:scale-90">▶</button>
+          <span class="text-[7px] text-gray-300 font-bold tracking-widest pointer-events-none">REPLAY</span>
+          <button onclick="moveCursor('UP')" class="absolute top-0.5 inset-x-3 h-4 flex justify-center items-start text-[9px] text-gray-200 hover:text-white active:scale-90">▲</button>
+          <button onclick="moveCursor('DOWN')" class="absolute bottom-0.5 inset-x-3 h-4 flex justify-center items-end text-[9px] text-gray-200 hover:text-white active:scale-90">▼</button>
+          <button onclick="moveCursor('LEFT')" class="absolute left-0.5 inset-y-3 w-4 flex items-center justify-start text-[9px] text-gray-200 hover:text-white active:scale-90">◀</button>
+          <button onclick="moveCursor('RIGHT')" class="absolute right-0.5 inset-y-3 w-4 flex items-center justify-end text-[9px] text-gray-200 hover:text-white active:scale-90">▶</button>
         </div>
       </div>
 
-      <!-- Right 2 Buttons (MODE, ON) -->
       <div class="flex flex-col items-center">
         <span class="text-[9px] font-bold text-gray-300 mb-0.5">MODE <span class="text-[#e69f45]">CLR</span></span>
-        <button onclick="pressMode()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+        <button onclick="pressMode()" class="btn-small w-full h-7 rounded-full"></button>
       </div>
       <div class="flex flex-col items-center">
         <span class="text-[9px] font-bold text-gray-300 mb-0.5">ON</span>
-        <button onclick="pressOn()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+        <button onclick="pressOn()" class="btn-small w-full h-7 rounded-full"></button>
       </div>
     </div>
 
@@ -208,11 +217,11 @@
       </div>
       <div class="flex flex-col">
         <div class="text-[8px] leading-tight">&nbsp;</div>
-        <button onclick="moveCursor('LEFT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-300">◀</button>
+        <button onclick="moveCursor('LEFT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-200">◀</button>
       </div>
       <div class="flex flex-col">
         <div class="text-[8px] leading-tight">&nbsp;</div>
-        <button onclick="moveCursor('RIGHT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-300">▶</button>
+        <button onclick="moveCursor('RIGHT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-200">▶</button>
       </div>
       <div class="flex flex-col">
         <div class="text-[8px] leading-tight text-[#e69f45]">x!</div>
@@ -414,7 +423,7 @@
     let rclActive = false;
 
     let angleMode = 'DEG'; // DEG, RAD, GRAD
-    let modeMenuStep = 0;  // 0: normal, 1: COMP/CMPLX, 2: DEG/RAD/GRA, 3: FIX/SCI/NORM
+    let modeMenuStep = 0;
     let fixDigits = null;
     let sciDigits = null;
     let engShift = 0;
@@ -427,15 +436,15 @@
     const memory = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, X: 0, Y: 0, M: 0 };
 
     const SCIENTIFIC_CONSTANTS = {
-      '01': 1.67262158e-27, // mp
-      '02': 1.67492716e-27, // mn
-      '03': 9.10938188e-31, // me
-      '06': 6.62606876e-34, // h
-      '17': 1.60217646e-19, // e
-      '24': 6.02214199e23,  // NA
-      '27': 8.314472,       // R
-      '28': 299792458,      // c
-      '35': 9.80665         // g
+      '01': 1.67262158e-27,
+      '02': 1.67492716e-27,
+      '03': 9.10938188e-31,
+      '06': 6.62606876e-34,
+      '17': 1.60217646e-19,
+      '24': 6.02214199e23,
+      '27': 8.314472,
+      '28': 299792458,
+      '35': 9.80665
     };
 
     // --- UI Update ---
@@ -456,7 +465,6 @@
       }
       cursorEl.style.display = 'inline';
 
-      // Status Indicators
       document.getElementById('ind-shift').style.opacity = shiftActive ? '1' : '0.15';
       document.getElementById('ind-alpha').style.opacity = alphaActive ? '1' : '0.15';
       document.getElementById('ind-m').style.opacity = memory.M !== 0 ? '1' : '0.15';
@@ -613,7 +621,6 @@
     function pressMode() {
       if (isPoweredOff) return;
       if (shiftActive) {
-        // CLR All
         tokens = [];
         cursorPos = 0;
         ans = 0;
@@ -758,7 +765,6 @@
     function handleNum(d) {
       if (isPoweredOff) return;
 
-      // Mode menu handling
       if (modeMenuStep === 1) {
         modeMenuStep = 0;
         updateDisplay();
@@ -830,10 +836,10 @@
       insertToken(op, true);
     }
 
+    // Authentic Casio S-V.P.A.M. Function Input (No forced opening brackets!)
     function handleSci(type) {
       if (isPoweredOff) return;
 
-      // Variable map check
       const varMap = { NEG: 'A', DMS: 'B', HYP: 'C', SIN: 'D', COS: 'E', TAN: 'F', RPAREN: 'X', COMMA: 'Y', MPLUS: 'M' };
       if (varMap[type] && (stoActive || rclActive || alphaActive)) {
         if (handleVariableAction(varMap[type])) return;
@@ -857,7 +863,7 @@
           else insertToken('⁻¹', true);
           break;
         case 'CBRT_POW':
-          if (shiftActive) insertToken('³√(');
+          if (shiftActive) insertToken('³√');
           else insertToken('³', true);
           break;
         case 'FRAC':
@@ -870,7 +876,7 @@
           }
           break;
         case 'SQRT':
-          insertToken('√(');
+          insertToken('√');
           break;
         case 'SQ':
           insertToken('²', true);
@@ -880,13 +886,13 @@
           else insertToken('^', true);
           break;
         case 'LOG':
-          if (shiftActive) insertToken('10^(');
-          else insertToken('log(');
+          if (shiftActive) insertToken('10^');
+          else insertToken('log ');
           break;
         case 'LN':
-          if (shiftActive) insertToken('e^(');
+          if (shiftActive) insertToken('e^');
           else if (alphaActive) insertToken('e');
-          else insertToken('ln(');
+          else insertToken('ln ');
           break;
         case 'NEG':
           insertToken('-');
@@ -909,10 +915,10 @@
         case 'COS':
         case 'TAN': {
           const base = type.toLowerCase();
-          if (hypActive && shiftActive) insertToken(`a${base}h(`);
-          else if (hypActive) insertToken(`${base}h(`);
-          else if (shiftActive) insertToken(`a${base}(`);
-          else insertToken(`${base}(`);
+          if (hypActive && shiftActive) insertToken(`${base}h⁻¹ `);
+          else if (hypActive) insertToken(`${base}h `);
+          else if (shiftActive) insertToken(`${base}⁻¹ `);
+          else insertToken(`${base} `);
           break;
         }
         case 'RCL':
@@ -951,7 +957,7 @@
       }
     }
 
-    // --- Math Helpers for Expression Evaluation ---
+    // --- Math Helpers & Authentic S-V.P.A.M. Parser ---
     function toRad(x) {
       if (angleMode === 'DEG') return x * Math.PI / 180;
       if (angleMode === 'GRAD') return x * Math.PI / 200;
@@ -962,6 +968,13 @@
       if (angleMode === 'GRAD') return x * 200 / Math.PI;
       return x;
     }
+    function _sin(x) { return Math.sin(toRad(x)); }
+    function _cos(x) { return Math.cos(toRad(x)); }
+    function _tan(x) { return Math.tan(toRad(x)); }
+    function _asin(x) { return fromRad(Math.asin(x)); }
+    function _acos(x) { return fromRad(Math.acos(x)); }
+    function _atan(x) { return fromRad(Math.atan(x)); }
+
     function fact(n) {
       if (n < 0 || Math.floor(n) !== n) return NaN;
       if (n > 170) return Infinity;
@@ -992,76 +1005,107 @@
       let raw = tokens.join('');
 
       try {
-        // Auto-close parentheses
-        const openCount = (raw.match(/\(/g) || []).length;
-        const closeCount = (raw.match(/\)/g) || []).length;
-        if (openCount > closeCount) {
-          raw += ')'.repeat(openCount - closeCount);
-        }
-
-        // Percentage handling if Shift + = was pressed
         const isPercent = shiftActive;
         clearModifiers();
 
-        // Handle Fractions a⌟b⌟c or a⌟b
+        // 1. Fractions a⌟b⌟c or a⌟b
         raw = raw.replace(/(\d+)⌟(\d+)⌟(\d+)/g, '(($1)+($2)/($3))');
         raw = raw.replace(/(\d+)⌟(\d+)/g, '(($1)/($2))');
 
-        // Handle DMS d°m°s°
+        // 2. DMS d°m°s°
         raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°?/g, '(($1)+($2)/60+($3)/3600)');
         raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°/g, '(($1)+($2)/60)');
         raw = raw.replace(/(\d+(?:\.\d+)?)°/g, '($1)');
 
-        // Implicit multiplication (e.g. 2π, 3sin(30), (2)(3))
-        raw = raw.replace(/(\d|\)|π|e|Ans)(?=(π|e|Ans|A|B|C|D|E|F|X|Y|M|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh|asinh|acosh|atanh|log|ln|√|³√|\())/g, '$1*');
+        // 3. Map multi-char S-V.P.A.M. prefix functions to internal identifiers
+        raw = raw
+          .replace(/sinh⁻¹\s*/g, '__asinh__')
+          .replace(/cosh⁻¹\s*/g, '__acosh__')
+          .replace(/tanh⁻¹\s*/g, '__atanh__')
+          .replace(/sin⁻¹\s*/g, '__asin__')
+          .replace(/cos⁻¹\s*/g, '__acos__')
+          .replace(/tan⁻¹\s*/g, '__atan__')
+          .replace(/sinh\s*/g, '__sinh__')
+          .replace(/cosh\s*/g, '__cosh__')
+          .replace(/tanh\s*/g, '__tanh__')
+          .replace(/sin\s*/g, '__sin__')
+          .replace(/cos\s*/g, '__cos__')
+          .replace(/tan\s*/g, '__tan__')
+          .replace(/log\s*/g, '__log__')
+          .replace(/ln\s*/g, '__ln__')
+          .replace(/10\^/g, '__pow10__')
+          .replace(/e\^/g, '__exp__')
+          .replace(/³√/g, '__cbrt__')
+          .replace(/√/g, '__sqrt__');
 
-        // Postfix Operators
+        // 4. Scientific Notation (e.g., 2E3 -> (2*10**(3)))
+        raw = raw.replace(/(\d+(?:\.\d+)?)E([+-]?\d+)/g, '($1*Math.pow(10,$2))');
+
+        // 5. Implicit Multiplication (e.g. 2π, 2sin 30, (2)(3))
+        raw = raw.replace(/(\d|\)|π|e|Ans)(?=(π|e|Ans|[A-FXYM]|__|\())/g, '$1*');
+
+        // 6. Postfix Operators (!, ², ³, ⁻¹)
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])!/g, 'fact($1)');
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])²/g, 'Math.pow($1,2)');
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])³/g, 'Math.pow($1,3)');
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])⁻¹/g, 'Math.pow($1,-1)');
 
-        // Infix nPr, nCr, xth-root
+        // 7. Wrap unparenthesized prefix function arguments automatically:
+        //    Handles e.g. "tan⁻¹ 0.2", "sin 30", "√2", "log 100", "sin -30"
+        const fnPattern = /__(?:asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|log|ln|pow10|exp|cbrt|sqrt)__/g;
+        // Loop from right to left so nested functions like "sin cos 30" work naturally
+        let matchFluid;
+        const wrapRegex = /(__(?:asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|log|ln|pow10|exp|cbrt|sqrt)__)(?!\()([+-]?(?:\d+(?:\.\d+)?|\.\d+|π|e|Ans|[A-FXYM]|\([^()]+\)))/;
+        let safety = 0;
+        while (wrapRegex.test(raw) && safety < 25) {
+          raw = raw.replace(wrapRegex, '$1($2)');
+          safety++;
+        }
+
+        // 8. Infix nPr, nCr, xth-root
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))P(\d+(?:\.\d+)?|\([^()]+\))/g, 'nPr($1,$2)');
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))C(\d+(?:\.\d+)?|\([^()]+\))/g, 'nCr($1,$2)');
         raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))ˣ√(\d+(?:\.\d+)?|\([^()]+\))/g, 'Math.pow($2,1/($1))');
 
-        // Standard Functions
+        // 9. Convert internal function tokens to JS calls
+        raw = raw
+          .replace(/__asinh__/g, 'Math.asinh')
+          .replace(/__acosh__/g, 'Math.acosh')
+          .replace(/__atanh__/g, 'Math.atanh')
+          .replace(/__asin__/g, '_asin')
+          .replace(/__acos__/g, '_acos')
+          .replace(/__atan__/g, '_atan')
+          .replace(/__sinh__/g, 'Math.sinh')
+          .replace(/__cosh__/g, 'Math.cosh')
+          .replace(/__tanh__/g, 'Math.tanh')
+          .replace(/__sin__/g, '_sin')
+          .replace(/__cos__/g, '_cos')
+          .replace(/__tan__/g, '_tan')
+          .replace(/__log__/g, 'Math.log10')
+          .replace(/__ln__/g, 'Math.log')
+          .replace(/__pow10__/g, '(x=>Math.pow(10,x))')
+          .replace(/__exp__/g, 'Math.exp')
+          .replace(/__cbrt__/g, 'Math.cbrt')
+          .replace(/__sqrt__/g, 'Math.sqrt');
+
+        // 10. Replace symbols & constants
         raw = raw
           .replace(/×/g, '*')
           .replace(/÷/g, '/')
           .replace(/\^/g, '**')
           .replace(/π/g, 'Math.PI')
-          .replace(/(?<![a-zA-Z])e(?![a-zA-Z])/g, 'Math.E')
-          .replace(/Ans/g, `(${ans})`)
-          .replace(/³√\(/g, 'Math.cbrt(')
-          .replace(/√\(/g, 'Math.sqrt(')
-          .replace(/10\^\(/g, 'Math.pow(10,')
-          .replace(/e\^\(/g, 'Math.exp(')
-          .replace(/log\(/g, 'Math.log10(')
-          .replace(/ln\(/g, 'Math.log(')
-          .replace(/asinh\(/g, 'Math.asinh(')
-          .replace(/acosh\(/g, 'Math.acosh(')
-          .replace(/atanh\(/g, 'Math.atanh(')
-          .replace(/sinh\(/g, 'Math.sinh(')
-          .replace(/cosh\(/g, 'Math.cosh(')
-          .replace(/tanh\(/g, 'Math.tanh(')
-          .replace(/asin\(/g, 'fromRad(Math.asin(')
-          .replace(/acos\(/g, 'fromRad(Math.acos(')
-          .replace(/atan\(/g, 'fromRad(Math.atan(')
-          .replace(/sin\(/g, 'Math.sin(toRad(')
-          .replace(/cos\(/g, 'Math.cos(toRad(')
-          .replace(/tan\(/g, 'Math.tan(toRad(');
+          .replace(/(?<![a-zA-Z0-9_])e(?![a-zA-Z0-9_])/g, 'Math.E')
+          .replace(/Ans/g, `(${ans})`);
 
-        // Balance extra parens added by toRad(
+        // 11. Replace variables A-F, X, Y, M
+        raw = raw.replace(/\b([A-FXYM])\b/g, (_, v) => `(${memory[v]})`);
+
+        // 12. Auto-balance any open parentheses
         const openAfter = (raw.match(/\(/g) || []).length;
         const closeAfter = (raw.match(/\)/g) || []).length;
         if (openAfter > closeAfter) {
           raw += ')'.repeat(openAfter - closeAfter);
         }
-
-        // Replace memory variables A-F, X, Y, M
-        raw = raw.replace(/\b([A-FXYM])\b/g, (_, v) => `(${memory[v]})`);
 
         const result = Function('"use strict"; return (' + raw + ')')();
         const finalVal = isPercent ? result / 100 : result;
@@ -1102,101 +1146,12 @@
       else if (e.key === 'ArrowDown') moveCursor('DOWN');
     });
 
-    // --- Single-File PWA Setup (Canvas Icon + Dynamic Manifest + Service Worker) ---
+    // --- PWA Setup ---
     function setupPWA() {
-      // 1. Generate 512x512 App Icon dynamically
-      const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 512;
-      const ctx = canvas.getContext('2d');
-
-      // Dark slate casing background
-      ctx.fillStyle = '#22262e';
-      ctx.beginPath();
-      ctx.roundRect(0, 0, 512, 512, 96);
-      ctx.fill();
-
-      // LCD screen graphic
-      ctx.fillStyle = '#9ead86';
-      ctx.beginPath();
-      ctx.roundRect(56, 70, 400, 130, 20);
-      ctx.fill();
-
-      // Text on LCD
-      ctx.fillStyle = '#141c10';
-      ctx.font = 'bold 54px monospace';
-      ctx.fillText('fx-100MS', 85, 155);
-
-      // Keypad buttons graphic
-      const colors = ['#434b57', '#434b57', '#c84b61', '#5a6270', '#5a6270', '#e69f45'];
-      for (let r = 0; r < 2; r++) {
-        for (let c = 0; c < 3; c++) {
-          ctx.fillStyle = colors[r * 3 + c];
-          ctx.beginPath();
-          ctx.roundRect(64 + c * 136, 245 + r * 110, 112, 80, 16);
-          ctx.fill();
-        }
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
 
-      const iconUrl = canvas.toDataURL('image/png');
-
-      // Set Apple Touch Icon & Favicon
-      const appleIcon = document.createElement('link');
-      appleIcon.rel = 'apple-touch-icon';
-      appleIcon.href = iconUrl;
-      document.head.appendChild(appleIcon);
-
-      // 2. Inject Web App Manifest
-      const manifest = {
-        name: 'CASIO fx-100MS Scientific Calculator',
-        short_name: 'fx-100MS',
-        description: 'Realistic CASIO fx-100MS S-V.P.A.M. Scientific Calculator',
-        start_url: window.location.href,
-        display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#0f172a',
-        theme_color: '#24292e',
-        icons: [
-          { src: iconUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
-          { src: iconUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
-        ]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-      const manifestLink = document.createElement('link');
-      manifestLink.rel = 'manifest';
-      manifestLink.href = URL.createObjectURL(manifestBlob);
-      document.head.appendChild(manifestLink);
-
-      // 3. Register Offline Service Worker
-      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-        const swCode = `
-          const CACHE_NAME = 'casio-fx100ms-v1';
-          self.addEventListener('install', (e) => {
-            self.skipWaiting();
-          });
-          self.addEventListener('activate', (e) => {
-            e.waitUntil(clients.claim());
-          });
-          self.addEventListener('fetch', (e) => {
-            e.respondWith(
-              caches.match(e.request).then((res) => {
-                return res || fetch(e.request).then((fetchRes) => {
-                  return caches.open(CACHE_NAME).then((cache) => {
-                    if (e.request.url.startsWith('http')) {
-                      cache.put(e.request, fetchRes.clone());
-                    }
-                    return fetchRes;
-                  });
-                });
-              }).catch(() => caches.match(e.request))
-            );
-          });
-        `;
-        const swBlob = new Blob([swCode], { type: 'application/javascript' });
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
-      }
-
-      // 4. Handle Install Prompt Banner
       let deferredPrompt;
       const installBanner = document.getElementById('installBanner');
       window.addEventListener('beforeinstallprompt', (e) => {
