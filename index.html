@@ -45,13 +45,11 @@
       box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5), inset 0 0 14px rgba(50, 65, 35, 0.3);
       border: 2px solid #576346;
     }
-    /* Authentic Top Dot-Matrix Font */
     .font-matrix {
       font-family: 'VT323', monospace;
       letter-spacing: 0.08em;
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
     }
-    /* Authentic Bottom 7-Segment Font */
     .font-segment {
       font-family: 'Orbitron', monospace;
       letter-spacing: 0.05em;
@@ -836,7 +834,6 @@
       insertToken(op, true);
     }
 
-    // Authentic Casio S-V.P.A.M. Function Input (No forced opening brackets!)
     function handleSci(type) {
       if (isPoweredOff) return;
 
@@ -957,7 +954,7 @@
       }
     }
 
-    // --- Math Helpers & Authentic S-V.P.A.M. Parser ---
+    // --- Bulletproof Casio S-V.P.A.M. Recursive-Descent Evaluator ---
     function toRad(x) {
       if (angleMode === 'DEG') return x * Math.PI / 180;
       if (angleMode === 'GRAD') return x * Math.PI / 200;
@@ -968,13 +965,6 @@
       if (angleMode === 'GRAD') return x * 200 / Math.PI;
       return x;
     }
-    function _sin(x) { return Math.sin(toRad(x)); }
-    function _cos(x) { return Math.cos(toRad(x)); }
-    function _tan(x) { return Math.tan(toRad(x)); }
-    function _asin(x) { return fromRad(Math.asin(x)); }
-    function _acos(x) { return fromRad(Math.acos(x)); }
-    function _atan(x) { return fromRad(Math.atan(x)); }
-
     function fact(n) {
       if (n < 0 || Math.floor(n) !== n) return NaN;
       if (n > 170) return Infinity;
@@ -984,130 +974,232 @@
     }
     function nPr(n, r) { return fact(n) / fact(n - r); }
     function nCr(n, r) { return fact(n) / (fact(r) * fact(n - r)); }
-    function Pol(x, y) {
-      const r = Math.hypot(x, y);
-      const th = fromRad(Math.atan2(y, x));
-      memory.X = r;
-      memory.Y = th;
-      return r;
+
+    function tokenizeMath(str) {
+      const list = [];
+      let i = 0;
+      const multiTokens = [
+        'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹',
+        'sin⁻¹', 'cos⁻¹', 'tan⁻¹',
+        'sinh', 'cosh', 'tanh',
+        'sin', 'cos', 'tan',
+        'log', 'ln', '10^', 'e^',
+        'Pol(', 'Rec(', '³√', 'ˣ√', '⁻¹', 'Ans'
+      ];
+
+      while (i < str.length) {
+        if (/\s/.test(str[i])) { i++; continue; }
+
+        // Number literal (supports scientific E notation like 1.5E-3)
+        const numMatch = str.slice(i).match(/^(?:\d+\.?\d*|\.\d+)(?:E[+-]?\d+)?/);
+        if (numMatch) {
+          list.push({ type: 'NUM', val: parseFloat(numMatch[0]) });
+          i += numMatch[0].length;
+          continue;
+        }
+
+        // Check multi-character function/operator tokens
+        let matched = false;
+        for (const mt of multiTokens) {
+          if (str.startsWith(mt, i)) {
+            if (mt === 'Pol(' || mt === 'Rec(') {
+              list.push({ type: 'FUNC2', val: mt.slice(0, 3) });
+              list.push({ type: 'LPAREN', val: '(' });
+            } else if (mt === 'ˣ√') {
+              list.push({ type: 'OP', val: 'ˣ√' });
+            } else if (mt === '⁻¹') {
+              list.push({ type: 'POST', val: '⁻¹' });
+            } else if (mt === 'Ans') {
+              list.push({ type: 'NUM', val: ans });
+            } else {
+              list.push({ type: 'PRE', val: mt });
+            }
+            i += mt.length;
+            matched = true;
+            break;
+          }
+        }
+        if (matched) continue;
+
+        const ch = str[i];
+        if (ch === '√') { list.push({ type: 'PRE', val: '√' }); i++; continue; }
+        if (ch === 'π') { list.push({ type: 'NUM', val: Math.PI }); i++; continue; }
+        if (ch === 'e') { list.push({ type: 'NUM', val: Math.E }); i++; continue; }
+        if ('ABCDEFXYM'.includes(ch)) { list.push({ type: 'NUM', val: memory[ch] || 0 }); i++; continue; }
+        if ('²³!°'.includes(ch)) { list.push({ type: 'POST', val: ch }); i++; continue; }
+        if ('+-×÷^PC⌟'.includes(ch)) { list.push({ type: 'OP', val: ch }); i++; continue; }
+        if (ch === '(') { list.push({ type: 'LPAREN', val: '(' }); i++; continue; }
+        if (ch === ')') { list.push({ type: 'RPAREN', val: ')' }); i++; continue; }
+        if (ch === ',') { list.push({ type: 'COMMA', val: ',' }); i++; continue; }
+
+        throw new Error('Unknown token: ' + ch);
+      }
+
+      // Insert implicit multiplication where Casio S-V.P.A.M. expects it:
+      // e.g. 2 sin 30 -> 2 * sin 30, 2(3) -> 2 * (3), ) ( -> ) * (
+      const finalTokens = [];
+      for (let j = 0; j < list.length; j++) {
+        finalTokens.push(list[j]);
+        if (j < list.length - 1) {
+          const curr = list[j];
+          const next = list[j + 1];
+          const leftCanMult = (curr.type === 'NUM' || curr.type === 'RPAREN' || curr.type === 'POST');
+          const rightCanMult = (next.type === 'NUM' || next.type === 'LPAREN' || next.type === 'PRE' || next.type === 'FUNC2');
+          if (leftCanMult && rightCanMult) {
+            finalTokens.push({ type: 'OP', val: '×' });
+          }
+        }
+      }
+      return finalTokens;
     }
-    function Rec(r, th) {
-      const x = r * Math.cos(toRad(th));
-      const y = r * Math.sin(toRad(th));
-      memory.X = x;
-      memory.Y = y;
-      return x;
+
+    function parseAndEval(rawStr) {
+      // Pre-handle DMS like 12°30°45° and mixed fractions 1⌟2⌟3
+      let s = rawStr
+        .replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°?/g, '(($1)+($2)/60+($3)/3600)')
+        .replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°/g, '(($1)+($2)/60)')
+        .replace(/(\d+)⌟(\d+)⌟(\d+)/g, '(($1)+($2)÷($3))')
+        .replace(/(\d+)⌟(\d+)/g, '(($1)÷($2))');
+
+      const tks = tokenizeMath(s);
+      let pos = 0;
+
+      function peek() { return tks[pos]; }
+      function consume() { return tks[pos++]; }
+
+      function parseExpr() {
+        let left = parseTerm();
+        while (peek() && peek().type === 'OP' && (peek().val === '+' || peek().val === '-')) {
+          const op = consume().val;
+          const right = parseTerm();
+          left = op === '+' ? left + right : left - right;
+        }
+        return left;
+      }
+
+      function parseTerm() {
+        let left = parseInfixSci();
+        while (peek() && peek().type === 'OP' && (peek().val === '×' || peek().val === '÷')) {
+          const op = consume().val;
+          const right = parseInfixSci();
+          left = op === '×' ? left * right : left / right;
+        }
+        return left;
+      }
+
+      function parseInfixSci() {
+        let left = parseUnary();
+        while (peek() && peek().type === 'OP' && ['P', 'C', '^', 'ˣ√', '⌟'].includes(peek().val)) {
+          const op = consume().val;
+          const right = parseUnary();
+          if (op === 'P') left = nPr(left, right);
+          else if (op === 'C') left = nCr(left, right);
+          else if (op === '^') left = Math.pow(left, right);
+          else if (op === 'ˣ√') left = Math.pow(right, 1 / left);
+          else if (op === '⌟') left = left / right;
+        }
+        return left;
+      }
+
+      function parseUnary() {
+        if (peek() && peek().type === 'OP' && (peek().val === '+' || peek().val === '-')) {
+          const op = consume().val;
+          const v = parseUnary();
+          return op === '-' ? -v : v;
+        }
+        if (peek() && peek().type === 'PRE') {
+          const fn = consume().val;
+          const arg = parseUnary();
+          switch (fn) {
+            case 'sin': return Math.sin(toRad(arg));
+            case 'cos': return Math.cos(toRad(arg));
+            case 'tan': return Math.tan(toRad(arg));
+            case 'sin⁻¹': return fromRad(Math.asin(arg));
+            case 'cos⁻¹': return fromRad(Math.acos(arg));
+            case 'tan⁻¹': return fromRad(Math.atan(arg));
+            case 'sinh': return Math.sinh(arg);
+            case 'cosh': return Math.cosh(arg);
+            case 'tanh': return Math.tanh(arg);
+            case 'sinh⁻¹': return Math.asinh(arg);
+            case 'cosh⁻¹': return Math.acosh(arg);
+            case 'tanh⁻¹': return Math.atanh(arg);
+            case 'log': return Math.log10(arg);
+            case 'ln': return Math.log(arg);
+            case '10^': return Math.pow(10, arg);
+            case 'e^': return Math.exp(arg);
+            case '√': return Math.sqrt(arg);
+            case '³√': return Math.cbrt(arg);
+          }
+        }
+        return parsePostfix();
+      }
+
+      function parsePostfix() {
+        let val = parsePrimary();
+        while (peek() && peek().type === 'POST') {
+          const post = consume().val;
+          if (post === '²') val = val * val;
+          else if (post === '³') val = val * val * val;
+          else if (post === '⁻¹') val = 1 / val;
+          else if (post === '!') val = fact(val);
+        }
+        return val;
+      }
+
+      function parsePrimary() {
+        const tk = peek();
+        if (!tk) throw new Error('Unexpected end');
+
+        if (tk.type === 'NUM') {
+          consume();
+          return tk.val;
+        }
+
+        if (tk.type === 'FUNC2') {
+          const fn = consume().val;
+          if (peek() && peek().type === 'LPAREN') consume();
+          const a = parseExpr();
+          if (!peek() || peek().type !== 'COMMA') throw new Error('Missing comma');
+          consume();
+          const b = parseExpr();
+          if (peek() && peek().type === 'RPAREN') consume();
+          if (fn === 'Pol') {
+            const r = Math.hypot(a, b);
+            const th = fromRad(Math.atan2(b, a));
+            memory.X = r; memory.Y = th;
+            return r;
+          } else {
+            const x = a * Math.cos(toRad(b));
+            const y = a * Math.sin(toRad(b));
+            memory.X = x; memory.Y = y;
+            return x;
+          }
+        }
+
+        if (tk.type === 'LPAREN') {
+          consume();
+          const v = parseExpr();
+          if (peek() && peek().type === 'RPAREN') consume();
+          return v;
+        }
+
+        throw new Error('Syntax Error');
+      }
+
+      const out = parseExpr();
+      if (pos < tks.length) throw new Error('Trailing tokens');
+      return out;
     }
 
     function evaluateExpression() {
       if (isPoweredOff || tokens.length === 0) return;
 
-      let raw = tokens.join('');
+      const raw = tokens.join('');
+      const isPercent = shiftActive;
+      clearModifiers();
 
       try {
-        const isPercent = shiftActive;
-        clearModifiers();
-
-        // 1. Fractions a⌟b⌟c or a⌟b
-        raw = raw.replace(/(\d+)⌟(\d+)⌟(\d+)/g, '(($1)+($2)/($3))');
-        raw = raw.replace(/(\d+)⌟(\d+)/g, '(($1)/($2))');
-
-        // 2. DMS d°m°s°
-        raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°?/g, '(($1)+($2)/60+($3)/3600)');
-        raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°/g, '(($1)+($2)/60)');
-        raw = raw.replace(/(\d+(?:\.\d+)?)°/g, '($1)');
-
-        // 3. Map multi-char S-V.P.A.M. prefix functions to internal identifiers
-        raw = raw
-          .replace(/sinh⁻¹\s*/g, '__asinh__')
-          .replace(/cosh⁻¹\s*/g, '__acosh__')
-          .replace(/tanh⁻¹\s*/g, '__atanh__')
-          .replace(/sin⁻¹\s*/g, '__asin__')
-          .replace(/cos⁻¹\s*/g, '__acos__')
-          .replace(/tan⁻¹\s*/g, '__atan__')
-          .replace(/sinh\s*/g, '__sinh__')
-          .replace(/cosh\s*/g, '__cosh__')
-          .replace(/tanh\s*/g, '__tanh__')
-          .replace(/sin\s*/g, '__sin__')
-          .replace(/cos\s*/g, '__cos__')
-          .replace(/tan\s*/g, '__tan__')
-          .replace(/log\s*/g, '__log__')
-          .replace(/ln\s*/g, '__ln__')
-          .replace(/10\^/g, '__pow10__')
-          .replace(/e\^/g, '__exp__')
-          .replace(/³√/g, '__cbrt__')
-          .replace(/√/g, '__sqrt__');
-
-        // 4. Scientific Notation (e.g., 2E3 -> (2*10**(3)))
-        raw = raw.replace(/(\d+(?:\.\d+)?)E([+-]?\d+)/g, '($1*Math.pow(10,$2))');
-
-        // 5. Implicit Multiplication (e.g. 2π, 2sin 30, (2)(3))
-        raw = raw.replace(/(\d|\)|π|e|Ans)(?=(π|e|Ans|[A-FXYM]|__|\())/g, '$1*');
-
-        // 6. Postfix Operators (!, ², ³, ⁻¹)
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])!/g, 'fact($1)');
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])²/g, 'Math.pow($1,2)');
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])³/g, 'Math.pow($1,3)');
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])⁻¹/g, 'Math.pow($1,-1)');
-
-        // 7. Wrap unparenthesized prefix function arguments automatically:
-        //    Handles e.g. "tan⁻¹ 0.2", "sin 30", "√2", "log 100", "sin -30"
-        const fnPattern = /__(?:asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|log|ln|pow10|exp|cbrt|sqrt)__/g;
-        // Loop from right to left so nested functions like "sin cos 30" work naturally
-        let matchFluid;
-        const wrapRegex = /(__(?:asinh|acosh|atanh|asin|acos|atan|sinh|cosh|tanh|sin|cos|tan|log|ln|pow10|exp|cbrt|sqrt)__)(?!\()([+-]?(?:\d+(?:\.\d+)?|\.\d+|π|e|Ans|[A-FXYM]|\([^()]+\)))/;
-        let safety = 0;
-        while (wrapRegex.test(raw) && safety < 25) {
-          raw = raw.replace(wrapRegex, '$1($2)');
-          safety++;
-        }
-
-        // 8. Infix nPr, nCr, xth-root
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))P(\d+(?:\.\d+)?|\([^()]+\))/g, 'nPr($1,$2)');
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))C(\d+(?:\.\d+)?|\([^()]+\))/g, 'nCr($1,$2)');
-        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))ˣ√(\d+(?:\.\d+)?|\([^()]+\))/g, 'Math.pow($2,1/($1))');
-
-        // 9. Convert internal function tokens to JS calls
-        raw = raw
-          .replace(/__asinh__/g, 'Math.asinh')
-          .replace(/__acosh__/g, 'Math.acosh')
-          .replace(/__atanh__/g, 'Math.atanh')
-          .replace(/__asin__/g, '_asin')
-          .replace(/__acos__/g, '_acos')
-          .replace(/__atan__/g, '_atan')
-          .replace(/__sinh__/g, 'Math.sinh')
-          .replace(/__cosh__/g, 'Math.cosh')
-          .replace(/__tanh__/g, 'Math.tanh')
-          .replace(/__sin__/g, '_sin')
-          .replace(/__cos__/g, '_cos')
-          .replace(/__tan__/g, '_tan')
-          .replace(/__log__/g, 'Math.log10')
-          .replace(/__ln__/g, 'Math.log')
-          .replace(/__pow10__/g, '(x=>Math.pow(10,x))')
-          .replace(/__exp__/g, 'Math.exp')
-          .replace(/__cbrt__/g, 'Math.cbrt')
-          .replace(/__sqrt__/g, 'Math.sqrt');
-
-        // 10. Replace symbols & constants
-        raw = raw
-          .replace(/×/g, '*')
-          .replace(/÷/g, '/')
-          .replace(/\^/g, '**')
-          .replace(/π/g, 'Math.PI')
-          .replace(/(?<![a-zA-Z0-9_])e(?![a-zA-Z0-9_])/g, 'Math.E')
-          .replace(/Ans/g, `(${ans})`);
-
-        // 11. Replace variables A-F, X, Y, M
-        raw = raw.replace(/\b([A-FXYM])\b/g, (_, v) => `(${memory[v]})`);
-
-        // 12. Auto-balance any open parentheses
-        const openAfter = (raw.match(/\(/g) || []).length;
-        const closeAfter = (raw.match(/\)/g) || []).length;
-        if (openAfter > closeAfter) {
-          raw += ')'.repeat(openAfter - closeAfter);
-        }
-
-        const result = Function('"use strict"; return (' + raw + ')')();
+        const result = parseAndEval(raw);
         const finalVal = isPercent ? result / 100 : result;
 
         if (typeof finalVal === 'number' && !isNaN(finalVal)) {
@@ -1116,7 +1208,7 @@
           history.push({ tokens: [...tokens], result: finalVal });
           historyIndex = history.length - 1;
         } else {
-          lastResult = 'Syntax ERROR';
+          lastResult = 'Math ERROR';
         }
       } catch (err) {
         lastResult = 'Syntax ERROR';
