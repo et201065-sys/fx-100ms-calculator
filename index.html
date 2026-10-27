@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#24292e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="fx-100MS" />
+  <title>CASIO fx-100MS (S-V.P.A.M.)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600;800&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      font-family: 'Inter', sans-serif;
+    }
+    .calc-casing {
+      background: linear-gradient(145deg, #323842 0%, #22262e 50%, #1a1d24 100%);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.85),
+        inset 0 2px 3px rgba(255, 255, 255, 0.15),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.6);
+      border: 2px solid #16191f;
+    }
+    .lcd-bezel {
+      background: linear-gradient(180deg, #181b20 0%, #252a32 100%);
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.85), 0 1px 1px rgba(255,255,255,0.08);
+    }
+    .lcd-screen {
+      background-color: #9ead86;
+      background-image: linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(255,255,255,0.04) 100%);
+      box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(60, 75, 45, 0.25);
+      border: 2px solid #5a6649;
+    }
+    .font-matrix {
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+    .font-segment {
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 0.04em;
+    }
+    .solar-panel {
+      background: repeating-linear-gradient(
+        90deg,
+        #3b2314,
+        #3b2314 14px,
+        #523320 14px,
+        #523320 15px
+      );
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
+      border: 1.5px solid #1a1412;
+    }
+    .btn-small {
+      background: linear-gradient(180deg, #434b57 0%, #2d333d 100%);
+      box-shadow: 0 3px 0 #171a20, 0 4px 5px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.2);
+      transition: all 0.06s ease;
+    }
+    .btn-small:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #171a20, 0 2px 2px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
+    }
+    .btn-num {
+      background: linear-gradient(180deg, #5a6270 0%, #404752 100%);
+      box-shadow: 0 4px 0 #1e2229, 0 5px 6px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.25);
+      transition: all 0.06s ease;
+    }
+    .btn-num:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #1e2229, 0 2px 3px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+    }
+    .btn-ac {
+      background: linear-gradient(180deg, #c84b61 0%, #9e3044 100%);
+      box-shadow: 0 4px 0 #591622, 0 5px 6px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.3);
+      transition: all 0.06s ease;
+    }
+    .btn-ac:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #591622, 0 2px 3px rgba(0,0,0,0.4);
+    }
+    .replay-pad {
+      background: linear-gradient(145deg, #3f4754, #282d36);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.2);
+      border: 2px solid #1c2026;
+    }
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor-blink {
+      animation: blink 1s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
+
+  <!-- Install App Floating Bar (Shows automatically when installable) -->
+  <div id="installBanner" class="hidden fixed top-3 z-50 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 cursor-pointer transition transform active:scale-95 border border-emerald-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+    <span class="text-xs sm:text-sm font-bold tracking-wide">Install fx-100MS App</span>
+  </div>
+
+  <!-- Calculator Body -->
+  <div class="calc-casing w-full max-w-[380px] rounded-[34px] p-4 sm:p-5 flex flex-col gap-3 relative">
+    
+    <!-- Top Branding & Solar Panel -->
+    <div class="flex justify-between items-start px-1 pt-1">
+      <div class="flex flex-col">
+        <span class="text-white font-extrabold text-lg tracking-wider leading-none">CASIO</span>
+        <span class="text-gray-300 font-bold italic text-xs tracking-wide mt-0.5">fx-100MS</span>
+        <span class="text-[#d97757] font-extrabold text-[10px] tracking-widest mt-1">S-V.P.A.M.</span>
+      </div>
+      <div class="flex flex-col items-end">
+        <div class="solar-panel w-28 h-8 rounded-md"></div>
+        <span class="text-[8px] text-gray-400 font-bold tracking-widest mt-1">TWO WAY POWER</span>
+      </div>
+    </div>
+
+    <!-- LCD Display Screen -->
+    <div class="lcd-bezel p-2.5 rounded-xl">
+      <div class="lcd-screen h-24 rounded-lg p-2 flex flex-col justify-between text-[#141c10] relative overflow-hidden">
+        
+        <!-- Status Indicators Row -->
+        <div class="flex justify-between items-center text-[9px] font-bold tracking-tighter border-b border-[#889870] pb-0.5 leading-none">
+          <div class="flex gap-1.5">
+            <span id="ind-shift" class="opacity-15 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">S</span>
+            <span id="ind-alpha" class="opacity-15 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">A</span>
+            <span id="ind-m" class="opacity-15">M</span>
+            <span id="ind-sto" class="opacity-15">STO</span>
+            <span id="ind-rcl" class="opacity-15">RCL</span>
+            <span id="ind-hyp" class="opacity-15">HYP</span>
+          </div>
+          <div class="flex gap-1.5">
+            <span id="ind-mode" class="opacity-100">COMP</span>
+            <span id="ind-angle" class="opacity-100 bg-[#141c10] text-[#9ead86] px-1 rounded-[2px]">D</span>
+            <span id="ind-fix" class="opacity-15">FIX</span>
+            <span id="ind-sci" class="opacity-15">SCI</span>
+          </div>
+        </div>
+
+        <!-- Upper Dot-Matrix Expression Line -->
+        <div id="exprDisplay" class="font-matrix text-base sm:text-lg leading-tight h-7 overflow-x-auto whitespace-nowrap flex items-center">
+          <span id="exprLeft"></span><span id="cursor" class="cursor-blink font-bold">_</span><span id="exprRight"></span>
+        </div>
+
+        <!-- Lower 7-Segment Result Line -->
+        <div class="flex justify-end items-baseline h-8 pr-1">
+          <div id="resDisplay" class="font-segment text-xl sm:text-2xl font-extrabold tracking-wider text-right truncate">0.</div>
+          <div id="expDisplay" class="font-segment text-xs font-bold ml-1"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Top Control Row + Replay D-Pad -->
+    <div class="grid grid-cols-5 items-center gap-1.5 my-0.5">
+      <!-- Left 2 Buttons (SHIFT, ALPHA) -->
+      <div class="flex flex-col items-center">
+        <span class="text-[9px] font-bold text-[#e69f45] mb-0.5">SHIFT</span>
+        <button onclick="pressShift()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-[9px] font-bold text-[#d45d79] mb-0.5">ALPHA</span>
+        <button onclick="pressAlpha()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+      </div>
+
+      <!-- Center Replay Pad -->
+      <div class="flex justify-center">
+        <div class="replay-pad w-16 h-14 rounded-full relative flex items-center justify-center">
+          <span class="text-[7px] text-gray-400 font-bold tracking-widest pointer-events-none">REPLAY</span>
+          <button onclick="moveCursor('UP')" class="absolute top-0.5 inset-x-3 h-4 flex justify-center items-start text-[9px] text-gray-300 hover:text-white active:scale-90">▲</button>
+          <button onclick="moveCursor('DOWN')" class="absolute bottom-0.5 inset-x-3 h-4 flex justify-center items-end text-[9px] text-gray-300 hover:text-white active:scale-90">▼</button>
+          <button onclick="moveCursor('LEFT')" class="absolute left-0.5 inset-y-3 w-4 flex items-center justify-start text-[9px] text-gray-300 hover:text-white active:scale-90">◀</button>
+          <button onclick="moveCursor('RIGHT')" class="absolute right-0.5 inset-y-3 w-4 flex items-center justify-end text-[9px] text-gray-300 hover:text-white active:scale-90">▶</button>
+        </div>
+      </div>
+
+      <!-- Right 2 Buttons (MODE, ON) -->
+      <div class="flex flex-col items-center">
+        <span class="text-[9px] font-bold text-gray-300 mb-0.5">MODE <span class="text-[#e69f45]">CLR</span></span>
+        <button onclick="pressMode()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-[9px] font-bold text-gray-300 mb-0.5">ON</span>
+        <button onclick="pressOn()" class="btn-small w-full h-7 rounded-full text-[10px] font-bold text-gray-200"></button>
+      </div>
+    </div>
+
+    <!-- Scientific Function Grid (6 Columns x 4 Rows) -->
+    <div class="grid grid-cols-6 gap-x-1.5 gap-y-2 text-center">
+      
+      <!-- Row 1 -->
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">SOLVE</span><span class="text-[#d45d79]">=</span></div>
+        <button onclick="handleSci('CALC')" class="btn-small h-7 rounded text-[10px] font-bold text-white">CALC</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">d/dx</div>
+        <button onclick="handleSci('INT')" class="btn-small h-7 rounded text-[10px] font-bold text-white">∫dx</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight">&nbsp;</div>
+        <button onclick="moveCursor('LEFT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-300">◀</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight">&nbsp;</div>
+        <button onclick="moveCursor('RIGHT')" class="btn-small h-7 rounded text-[10px] font-bold text-gray-300">▶</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">x!</div>
+        <button onclick="handleSci('INV')" class="btn-small h-7 rounded text-[10px] font-bold text-white">x⁻¹</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">³√</div>
+        <button onclick="handleSci('CBRT_POW')" class="btn-small h-7 rounded text-[10px] font-bold text-white">x³</button>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">d/c</div>
+        <button onclick="handleSci('FRAC')" class="btn-small h-7 rounded text-[10px] font-bold text-white">a b/c</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight">&nbsp;</div>
+        <button onclick="handleSci('SQRT')" class="btn-small h-7 rounded text-[11px] font-bold text-white">√</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight">&nbsp;</div>
+        <button onclick="handleSci('SQ')" class="btn-small h-7 rounded text-[10px] font-bold text-white">x²</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">ˣ√</div>
+        <button onclick="handleSci('POW')" class="btn-small h-7 rounded text-[11px] font-bold text-white">^</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">10ˣ</div>
+        <button onclick="handleSci('LOG')" class="btn-small h-7 rounded text-[10px] font-bold text-white">log</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">eˣ</span><span class="text-[#d45d79]">e</span></div>
+        <button onclick="handleSci('LN')" class="btn-small h-7 rounded text-[10px] font-bold text-white">ln</button>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#d45d79]">A</div>
+        <button onclick="handleSci('NEG')" class="btn-small h-7 rounded text-[10px] font-bold text-white">(-)</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">←</span><span class="text-[#d45d79]">B</span></div>
+        <button onclick="handleSci('DMS')" class="btn-small h-7 rounded text-[10px] font-bold text-white">° ' "</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#d45d79]">C</div>
+        <button onclick="handleSci('HYP')" class="btn-small h-7 rounded text-[10px] font-bold text-white">hyp</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">sin⁻¹</span><span class="text-[#d45d79]">D</span></div>
+        <button onclick="handleSci('SIN')" class="btn-small h-7 rounded text-[10px] font-bold text-white">sin</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">cos⁻¹</span><span class="text-[#d45d79]">E</span></div>
+        <button onclick="handleSci('COS')" class="btn-small h-7 rounded text-[10px] font-bold text-white">cos</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">tan⁻¹</span><span class="text-[#d45d79]">F</span></div>
+        <button onclick="handleSci('TAN')" class="btn-small h-7 rounded text-[10px] font-bold text-white">tan</button>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">STO</div>
+        <button onclick="handleSci('RCL')" class="btn-small h-7 rounded text-[10px] font-bold text-white">RCL</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#e69f45]">←</div>
+        <button onclick="handleSci('ENG')" class="btn-small h-7 rounded text-[10px] font-bold text-white">ENG</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight">&nbsp;</div>
+        <button onclick="insertToken('(')" class="btn-small h-7 rounded text-[10px] font-bold text-white">(</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight text-[#d45d79]">X</div>
+        <button onclick="handleSci('RPAREN')" class="btn-small h-7 rounded text-[10px] font-bold text-white">)</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">;</span><span class="text-[#d45d79]">Y</span></div>
+        <button onclick="handleSci('COMMA')" class="btn-small h-7 rounded text-[10px] font-bold text-white">,</button>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-[8px] leading-tight flex justify-between px-0.5"><span class="text-[#e69f45]">M-</span><span class="text-[#d45d79]">M</span></div>
+        <button onclick="handleSci('MPLUS')" class="btn-small h-7 rounded text-[10px] font-bold text-white">M+</button>
+      </div>
+
+    </div>
+
+    <!-- Main Number Pad (5 Columns x 4 Rows) -->
+    <div class="grid grid-cols-5 gap-2 text-center mt-1">
+      
+      <!-- Row 1 -->
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">CONST</span>
+        <button onclick="handleNum('7')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">7</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">CONV</span>
+        <button onclick="handleNum('8')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">8</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('9')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">9</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">INS</span>
+        <button onclick="pressDel()" class="btn-ac h-9 rounded-md text-xs font-extrabold text-white">DEL</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">OFF</span>
+        <button onclick="pressAc()" class="btn-ac h-9 rounded-md text-xs font-extrabold text-white">AC</button>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('4')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">4</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('5')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">5</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('6')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">6</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">nPr</span>
+        <button onclick="handleOp('×')" class="btn-num h-9 rounded-md text-base font-extrabold text-white">×</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">nCr</span>
+        <button onclick="handleOp('÷')" class="btn-num h-9 rounded-md text-base font-extrabold text-white">÷</button>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('1')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">1</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('2')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">2</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">&nbsp;</span>
+        <button onclick="handleNum('3')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">3</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">Pol(</span>
+        <button onclick="handleOp('+')" class="btn-num h-9 rounded-md text-base font-extrabold text-white">+</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">Rec(</span>
+        <button onclick="handleOp('-')" class="btn-num h-9 rounded-md text-base font-extrabold text-white">−</button>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">Rnd</span>
+        <button onclick="handleNum('0')" class="btn-num h-9 rounded-md text-sm font-extrabold text-white">0</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">Ran#</span>
+        <button onclick="handleDot()" class="btn-num h-9 rounded-md text-base font-extrabold text-white">.</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">π</span>
+        <button onclick="handleExp()" class="btn-num h-9 rounded-md text-xs font-extrabold text-white">EXP</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">DRG►</span>
+        <button onclick="handleAns()" class="btn-num h-9 rounded-md text-xs font-extrabold text-white">Ans</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-[8px] text-[#e69f45] h-3">%</span>
+        <button onclick="evaluateExpression()" class="btn-num h-9 rounded-md text-base font-extrabold text-white">=</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // --- Calculator State ---
+    let tokens = [];
+    let cursorPos = 0;
+    let ans = 0;
+    let lastResult = 0;
+    let isResultDisplayed = false;
+    let isPoweredOff = false;
+
+    let shiftActive = false;
+    let alphaActive = false;
+    let hypActive = false;
+    let stoActive = false;
+    let rclActive = false;
+
+    let angleMode = 'DEG'; // DEG, RAD, GRAD
+    let modeMenuStep = 0;  // 0: normal, 1: COMP/CMPLX, 2: DEG/RAD/GRA, 3: FIX/SCI/NORM
+    let fixDigits = null;
+    let sciDigits = null;
+    let engShift = 0;
+    let dmsMode = false;
+    let fracMode = false;
+
+    let history = [];
+    let historyIndex = -1;
+
+    const memory = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, X: 0, Y: 0, M: 0 };
+
+    const SCIENTIFIC_CONSTANTS = {
+      '01': 1.67262158e-27, // mp
+      '02': 1.67492716e-27, // mn
+      '03': 9.10938188e-31, // me
+      '06': 6.62606876e-34, // h
+      '17': 1.60217646e-19, // e
+      '24': 6.02214199e23,  // NA
+      '27': 8.314472,       // R
+      '28': 299792458,      // c
+      '35': 9.80665         // g
+    };
+
+    // --- UI Update ---
+    function updateDisplay() {
+      const exprLeftEl = document.getElementById('exprLeft');
+      const exprRightEl = document.getElementById('exprRight');
+      const cursorEl = document.getElementById('cursor');
+      const resEl = document.getElementById('resDisplay');
+      const expEl = document.getElementById('expDisplay');
+
+      if (isPoweredOff) {
+        exprLeftEl.textContent = '';
+        exprRightEl.textContent = '';
+        cursorEl.style.display = 'none';
+        resEl.textContent = '';
+        expEl.textContent = '';
+        return;
+      }
+      cursorEl.style.display = 'inline';
+
+      // Status Indicators
+      document.getElementById('ind-shift').style.opacity = shiftActive ? '1' : '0.15';
+      document.getElementById('ind-alpha').style.opacity = alphaActive ? '1' : '0.15';
+      document.getElementById('ind-m').style.opacity = memory.M !== 0 ? '1' : '0.15';
+      document.getElementById('ind-sto').style.opacity = stoActive ? '1' : '0.15';
+      document.getElementById('ind-rcl').style.opacity = rclActive ? '1' : '0.15';
+      document.getElementById('ind-hyp').style.opacity = hypActive ? '1' : '0.15';
+      document.getElementById('ind-angle').textContent = angleMode === 'DEG' ? 'D' : angleMode === 'RAD' ? 'R' : 'G';
+      document.getElementById('ind-fix').style.opacity = fixDigits !== null ? '1' : '0.15';
+      document.getElementById('ind-sci').style.opacity = sciDigits !== null ? '1' : '0.15';
+
+      if (modeMenuStep === 1) {
+        exprLeftEl.textContent = 'COMP   CMPLX';
+        exprRightEl.textContent = '';
+        resEl.textContent = '1      2';
+        expEl.textContent = '';
+        return;
+      } else if (modeMenuStep === 2) {
+        exprLeftEl.textContent = 'Deg   Rad   Gra';
+        exprRightEl.textContent = '';
+        resEl.textContent = '1     2     3';
+        expEl.textContent = '';
+        return;
+      }
+
+      exprLeftEl.textContent = tokens.slice(0, cursorPos).join('');
+      exprRightEl.textContent = tokens.slice(cursorPos).join('');
+
+      if (!isResultDisplayed) {
+        if (tokens.length === 0) {
+          resEl.textContent = '0.';
+          expEl.textContent = '';
+        }
+        return;
+      }
+
+      if (typeof lastResult === 'string') {
+        resEl.textContent = lastResult;
+        expEl.textContent = '';
+        return;
+      }
+
+      if (dmsMode) {
+        resEl.textContent = formatDMS(lastResult);
+        expEl.textContent = '';
+        return;
+      }
+
+      if (fracMode) {
+        resEl.textContent = formatFraction(lastResult);
+        expEl.textContent = '';
+        return;
+      }
+
+      formatNumericResult(lastResult, resEl, expEl);
+    }
+
+    function formatNumericResult(val, resEl, expEl) {
+      if (!isFinite(val)) {
+        resEl.textContent = 'Math ERROR';
+        expEl.textContent = '';
+        return;
+      }
+      if (Math.abs(val) < 1e-14) val = 0;
+
+      if (engShift !== 0 && val !== 0) {
+        const exp = Math.floor(Math.log10(Math.abs(val)) / 3) * 3 + (engShift - 1) * 3;
+        const mantissa = val / Math.pow(10, exp);
+        resEl.textContent = Number(mantissa.toPrecision(10)).toString();
+        expEl.textContent = `×10^${exp}`;
+        return;
+      }
+
+      if (fixDigits !== null) {
+        resEl.textContent = val.toFixed(fixDigits);
+        expEl.textContent = '';
+        return;
+      }
+
+      if (sciDigits !== null) {
+        const parts = val.toExponential(sciDigits - 1).split('e');
+        resEl.textContent = parts[0];
+        expEl.textContent = `×10^${parseInt(parts[1], 10)}`;
+        return;
+      }
+
+      if (val !== 0 && (Math.abs(val) >= 1e10 || Math.abs(val) < 1e-3)) {
+        const parts = val.toExponential(9).split('e');
+        resEl.textContent = parseFloat(parts[0]).toString();
+        expEl.textContent = `×10^${parseInt(parts[1], 10)}`;
+      } else {
+        let str = Number(val.toPrecision(10)).toString();
+        if (!str.includes('.')) str += '.';
+        resEl.textContent = str;
+        expEl.textContent = '';
+      }
+    }
+
+    function formatDMS(deg) {
+      const sign = deg < 0 ? '-' : '';
+      let abs = Math.abs(deg);
+      const d = Math.floor(abs);
+      const mFloat = (abs - d) * 60;
+      const m = Math.floor(mFloat);
+      const s = ((mFloat - m) * 60).toFixed(1);
+      return `${sign}${d}°${m}'${s}"`;
+    }
+
+    function formatFraction(val) {
+      const sign = val < 0 ? '-' : '';
+      const abs = Math.abs(val);
+      const tol = 1.0e-7;
+      let h1 = 1, h2 = 0, k1 = 0, k2 = 1, b = abs;
+      do {
+        let a = Math.floor(b);
+        let aux = h1; h1 = a * h1 + h2; h2 = aux;
+        aux = k1; k1 = a * k1 + k2; k2 = aux;
+        b = 1 / (b - a);
+      } while (Math.abs(abs - h1 / k1) > abs * tol && k1 < 10000);
+
+      if (k1 === 1) return `${sign}${h1}.`;
+      if (shiftActive) {
+        shiftActive = false;
+        return `${sign}${h1}⌟${k1}`;
+      }
+      if (h1 > k1) {
+        const whole = Math.floor(h1 / k1);
+        const rem = h1 % k1;
+        return `${sign}${whole}⌟${rem}⌟${k1}`;
+      }
+      return `${sign}${h1}⌟${k1}`;
+    }
+
+    // --- Core Input Controls ---
+    function clearModifiers() {
+      shiftActive = false;
+      alphaActive = false;
+      hypActive = false;
+    }
+
+    function pressShift() {
+      if (isPoweredOff) return;
+      shiftActive = !shiftActive;
+      alphaActive = false;
+      updateDisplay();
+    }
+
+    function pressAlpha() {
+      if (isPoweredOff) return;
+      alphaActive = !alphaActive;
+      shiftActive = false;
+      updateDisplay();
+    }
+
+    function pressMode() {
+      if (isPoweredOff) return;
+      if (shiftActive) {
+        // CLR All
+        tokens = [];
+        cursorPos = 0;
+        ans = 0;
+        Object.keys(memory).forEach(k => memory[k] = 0);
+        clearModifiers();
+        lastResult = 'Mem Cleared';
+        isResultDisplayed = true;
+        updateDisplay();
+        return;
+      }
+      modeMenuStep = (modeMenuStep + 1) % 3;
+      updateDisplay();
+    }
+
+    function pressOn() {
+      isPoweredOff = false;
+      tokens = [];
+      cursorPos = 0;
+      lastResult = 0;
+      isResultDisplayed = false;
+      modeMenuStep = 0;
+      clearModifiers();
+      stoActive = false;
+      rclActive = false;
+      updateDisplay();
+    }
+
+    function pressAc() {
+      if (shiftActive) {
+        isPoweredOff = true;
+        clearModifiers();
+        updateDisplay();
+        return;
+      }
+      isPoweredOff = false;
+      tokens = [];
+      cursorPos = 0;
+      isResultDisplayed = false;
+      modeMenuStep = 0;
+      dmsMode = false;
+      fracMode = false;
+      engShift = 0;
+      clearModifiers();
+      stoActive = false;
+      rclActive = false;
+      updateDisplay();
+    }
+
+    function pressDel() {
+      if (isPoweredOff) return;
+      if (isResultDisplayed) {
+        isResultDisplayed = false;
+      }
+      if (cursorPos > 0) {
+        tokens.splice(cursorPos - 1, 1);
+        cursorPos--;
+      }
+      clearModifiers();
+      updateDisplay();
+    }
+
+    function moveCursor(dir) {
+      if (isPoweredOff) return;
+      if (dir === 'LEFT') {
+        if (isResultDisplayed) {
+          isResultDisplayed = false;
+          cursorPos = tokens.length;
+        } else if (cursorPos > 0) {
+          cursorPos--;
+        }
+      } else if (dir === 'RIGHT') {
+        if (isResultDisplayed) {
+          isResultDisplayed = false;
+          cursorPos = 0;
+        } else if (cursorPos < tokens.length) {
+          cursorPos++;
+        }
+      } else if (dir === 'UP' && history.length > 0) {
+        if (historyIndex > 0) historyIndex--;
+        tokens = [...history[historyIndex].tokens];
+        cursorPos = tokens.length;
+        lastResult = history[historyIndex].result;
+        isResultDisplayed = true;
+      } else if (dir === 'DOWN' && history.length > 0) {
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          tokens = [...history[historyIndex].tokens];
+          cursorPos = tokens.length;
+          lastResult = history[historyIndex].result;
+          isResultDisplayed = true;
+        }
+      }
+      updateDisplay();
+    }
+
+    function insertToken(tok, startWithAns = false) {
+      if (isPoweredOff) return;
+      if (isResultDisplayed) {
+        tokens = startWithAns ? ['Ans'] : [];
+        cursorPos = tokens.length;
+        isResultDisplayed = false;
+        dmsMode = false;
+        fracMode = false;
+        engShift = 0;
+      }
+      tokens.splice(cursorPos, 0, tok);
+      cursorPos++;
+      clearModifiers();
+      updateDisplay();
+    }
+
+    function handleVariableAction(varName) {
+      if (stoActive) {
+        if (!isResultDisplayed) evaluateExpression();
+        if (typeof lastResult === 'number') {
+          memory[varName] = lastResult;
+          tokens = [`Ans→${varName}`];
+          cursorPos = tokens.length;
+        }
+        stoActive = false;
+        clearModifiers();
+        updateDisplay();
+        return true;
+      }
+      if (rclActive) {
+        tokens = [`${varName}=`];
+        cursorPos = tokens.length;
+        lastResult = memory[varName];
+        isResultDisplayed = true;
+        rclActive = false;
+        clearModifiers();
+        updateDisplay();
+        return true;
+      }
+      if (alphaActive) {
+        insertToken(varName);
+        return true;
+      }
+      return false;
+    }
+
+    function handleNum(d) {
+      if (isPoweredOff) return;
+
+      // Mode menu handling
+      if (modeMenuStep === 1) {
+        modeMenuStep = 0;
+        updateDisplay();
+        return;
+      }
+      if (modeMenuStep === 2) {
+        if (d === '1') angleMode = 'DEG';
+        if (d === '2') angleMode = 'RAD';
+        if (d === '3') angleMode = 'GRAD';
+        modeMenuStep = 0;
+        updateDisplay();
+        return;
+      }
+
+      if (shiftActive) {
+        if (d === '7') {
+          const code = prompt('Enter Constant Number (01: mp, 02: mn, 03: me, 06: h, 17: e, 24: NA, 27: R, 28: c, 35: g):', '28');
+          if (code && SCIENTIFIC_CONSTANTS[code]) {
+            insertToken(SCIENTIFIC_CONSTANTS[code].toString());
+          }
+          clearModifiers();
+          updateDisplay();
+          return;
+        }
+        if (d === '0') {
+          lastResult = Math.round(lastResult * 1e10) / 1e10;
+          clearModifiers();
+          updateDisplay();
+          return;
+        }
+      }
+
+      insertToken(d);
+    }
+
+    function handleDot() {
+      if (shiftActive) {
+        insertToken(Number(Math.random().toFixed(3)).toString());
+        return;
+      }
+      insertToken('.');
+    }
+
+    function handleExp() {
+      if (shiftActive) {
+        insertToken('π');
+        return;
+      }
+      insertToken('E');
+    }
+
+    function handleAns() {
+      if (shiftActive) {
+        angleMode = angleMode === 'DEG' ? 'RAD' : angleMode === 'RAD' ? 'GRAD' : 'DEG';
+        clearModifiers();
+        updateDisplay();
+        return;
+      }
+      insertToken('Ans');
+    }
+
+    function handleOp(op) {
+      if (shiftActive) {
+        if (op === '×') { insertToken('P', true); return; }
+        if (op === '÷') { insertToken('C', true); return; }
+        if (op === '+') { insertToken('Pol('); return; }
+        if (op === '-') { insertToken('Rec('); return; }
+      }
+      insertToken(op, true);
+    }
+
+    function handleSci(type) {
+      if (isPoweredOff) return;
+
+      // Variable map check
+      const varMap = { NEG: 'A', DMS: 'B', HYP: 'C', SIN: 'D', COS: 'E', TAN: 'F', RPAREN: 'X', COMMA: 'Y', MPLUS: 'M' };
+      if (varMap[type] && (stoActive || rclActive || alphaActive)) {
+        if (handleVariableAction(varMap[type])) return;
+      }
+
+      switch (type) {
+        case 'CALC':
+          if (alphaActive) { insertToken('='); return; }
+          const xVal = prompt('X = ?', memory.X);
+          if (xVal !== null && !isNaN(parseFloat(xVal))) {
+            memory.X = parseFloat(xVal);
+            evaluateExpression();
+          }
+          break;
+        case 'INT':
+          if (shiftActive) insertToken('d/dx(');
+          else insertToken('∫(');
+          break;
+        case 'INV':
+          if (shiftActive) insertToken('!', true);
+          else insertToken('⁻¹', true);
+          break;
+        case 'CBRT_POW':
+          if (shiftActive) insertToken('³√(');
+          else insertToken('³', true);
+          break;
+        case 'FRAC':
+          if (isResultDisplayed) {
+            fracMode = !fracMode;
+            dmsMode = false;
+            updateDisplay();
+          } else {
+            insertToken('⌟');
+          }
+          break;
+        case 'SQRT':
+          insertToken('√(');
+          break;
+        case 'SQ':
+          insertToken('²', true);
+          break;
+        case 'POW':
+          if (shiftActive) insertToken('ˣ√', true);
+          else insertToken('^', true);
+          break;
+        case 'LOG':
+          if (shiftActive) insertToken('10^(');
+          else insertToken('log(');
+          break;
+        case 'LN':
+          if (shiftActive) insertToken('e^(');
+          else if (alphaActive) insertToken('e');
+          else insertToken('ln(');
+          break;
+        case 'NEG':
+          insertToken('-');
+          break;
+        case 'DMS':
+          if (isResultDisplayed) {
+            dmsMode = !dmsMode;
+            fracMode = false;
+            clearModifiers();
+            updateDisplay();
+          } else {
+            insertToken('°');
+          }
+          break;
+        case 'HYP':
+          hypActive = !hypActive;
+          updateDisplay();
+          break;
+        case 'SIN':
+        case 'COS':
+        case 'TAN': {
+          const base = type.toLowerCase();
+          if (hypActive && shiftActive) insertToken(`a${base}h(`);
+          else if (hypActive) insertToken(`${base}h(`);
+          else if (shiftActive) insertToken(`a${base}(`);
+          else insertToken(`${base}(`);
+          break;
+        }
+        case 'RCL':
+          if (shiftActive) {
+            stoActive = !stoActive;
+            rclActive = false;
+            shiftActive = false;
+          } else {
+            rclActive = !rclActive;
+            stoActive = false;
+          }
+          updateDisplay();
+          break;
+        case 'ENG':
+          if (!isResultDisplayed) evaluateExpression();
+          if (shiftActive) engShift--;
+          else engShift++;
+          clearModifiers();
+          updateDisplay();
+          break;
+        case 'RPAREN':
+          insertToken(')');
+          break;
+        case 'COMMA':
+          insertToken(',');
+          break;
+        case 'MPLUS':
+          const sign = shiftActive ? -1 : 1;
+          evaluateExpression();
+          if (typeof lastResult === 'number') {
+            memory.M += sign * lastResult;
+          }
+          clearModifiers();
+          updateDisplay();
+          break;
+      }
+    }
+
+    // --- Math Helpers for Expression Evaluation ---
+    function toRad(x) {
+      if (angleMode === 'DEG') return x * Math.PI / 180;
+      if (angleMode === 'GRAD') return x * Math.PI / 200;
+      return x;
+    }
+    function fromRad(x) {
+      if (angleMode === 'DEG') return x * 180 / Math.PI;
+      if (angleMode === 'GRAD') return x * 200 / Math.PI;
+      return x;
+    }
+    function fact(n) {
+      if (n < 0 || Math.floor(n) !== n) return NaN;
+      if (n > 170) return Infinity;
+      let r = 1;
+      for (let i = 2; i <= n; i++) r *= i;
+      return r;
+    }
+    function nPr(n, r) { return fact(n) / fact(n - r); }
+    function nCr(n, r) { return fact(n) / (fact(r) * fact(n - r)); }
+    function Pol(x, y) {
+      const r = Math.hypot(x, y);
+      const th = fromRad(Math.atan2(y, x));
+      memory.X = r;
+      memory.Y = th;
+      return r;
+    }
+    function Rec(r, th) {
+      const x = r * Math.cos(toRad(th));
+      const y = r * Math.sin(toRad(th));
+      memory.X = x;
+      memory.Y = y;
+      return x;
+    }
+
+    function evaluateExpression() {
+      if (isPoweredOff || tokens.length === 0) return;
+
+      let raw = tokens.join('');
+
+      try {
+        // Auto-close parentheses
+        const openCount = (raw.match(/\(/g) || []).length;
+        const closeCount = (raw.match(/\)/g) || []).length;
+        if (openCount > closeCount) {
+          raw += ')'.repeat(openCount - closeCount);
+        }
+
+        // Percentage handling if Shift + = was pressed
+        const isPercent = shiftActive;
+        clearModifiers();
+
+        // Handle Fractions a⌟b⌟c or a⌟b
+        raw = raw.replace(/(\d+)⌟(\d+)⌟(\d+)/g, '(($1)+($2)/($3))');
+        raw = raw.replace(/(\d+)⌟(\d+)/g, '(($1)/($2))');
+
+        // Handle DMS d°m°s°
+        raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°?/g, '(($1)+($2)/60+($3)/3600)');
+        raw = raw.replace(/(\d+(?:\.\d+)?)°(\d+(?:\.\d+)?)°/g, '(($1)+($2)/60)');
+        raw = raw.replace(/(\d+(?:\.\d+)?)°/g, '($1)');
+
+        // Implicit multiplication (e.g. 2π, 3sin(30), (2)(3))
+        raw = raw.replace(/(\d|\)|π|e|Ans)(?=(π|e|Ans|A|B|C|D|E|F|X|Y|M|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh|asinh|acosh|atanh|log|ln|√|³√|\())/g, '$1*');
+
+        // Postfix Operators
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])!/g, 'fact($1)');
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])²/g, 'Math.pow($1,2)');
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])³/g, 'Math.pow($1,3)');
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\)|Ans|π|e|[A-FXYM])⁻¹/g, 'Math.pow($1,-1)');
+
+        // Infix nPr, nCr, xth-root
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))P(\d+(?:\.\d+)?|\([^()]+\))/g, 'nPr($1,$2)');
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))C(\d+(?:\.\d+)?|\([^()]+\))/g, 'nCr($1,$2)');
+        raw = raw.replace(/(\d+(?:\.\d+)?|\([^()]+\))ˣ√(\d+(?:\.\d+)?|\([^()]+\))/g, 'Math.pow($2,1/($1))');
+
+        // Standard Functions
+        raw = raw
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/')
+          .replace(/\^/g, '**')
+          .replace(/π/g, 'Math.PI')
+          .replace(/(?<![a-zA-Z])e(?![a-zA-Z])/g, 'Math.E')
+          .replace(/Ans/g, `(${ans})`)
+          .replace(/³√\(/g, 'Math.cbrt(')
+          .replace(/√\(/g, 'Math.sqrt(')
+          .replace(/10\^\(/g, 'Math.pow(10,')
+          .replace(/e\^\(/g, 'Math.exp(')
+          .replace(/log\(/g, 'Math.log10(')
+          .replace(/ln\(/g, 'Math.log(')
+          .replace(/asinh\(/g, 'Math.asinh(')
+          .replace(/acosh\(/g, 'Math.acosh(')
+          .replace(/atanh\(/g, 'Math.atanh(')
+          .replace(/sinh\(/g, 'Math.sinh(')
+          .replace(/cosh\(/g, 'Math.cosh(')
+          .replace(/tanh\(/g, 'Math.tanh(')
+          .replace(/asin\(/g, 'fromRad(Math.asin(')
+          .replace(/acos\(/g, 'fromRad(Math.acos(')
+          .replace(/atan\(/g, 'fromRad(Math.atan(')
+          .replace(/sin\(/g, 'Math.sin(toRad(')
+          .replace(/cos\(/g, 'Math.cos(toRad(')
+          .replace(/tan\(/g, 'Math.tan(toRad(');
+
+        // Balance extra parens added by toRad(
+        const openAfter = (raw.match(/\(/g) || []).length;
+        const closeAfter = (raw.match(/\)/g) || []).length;
+        if (openAfter > closeAfter) {
+          raw += ')'.repeat(openAfter - closeAfter);
+        }
+
+        // Replace memory variables A-F, X, Y, M
+        raw = raw.replace(/\b([A-FXYM])\b/g, (_, v) => `(${memory[v]})`);
+
+        const result = Function('"use strict"; return (' + raw + ')')();
+        const finalVal = isPercent ? result / 100 : result;
+
+        if (typeof finalVal === 'number' && !isNaN(finalVal)) {
+          lastResult = finalVal;
+          ans = finalVal;
+          history.push({ tokens: [...tokens], result: finalVal });
+          historyIndex = history.length - 1;
+        } else {
+          lastResult = 'Syntax ERROR';
+        }
+      } catch (err) {
+        lastResult = 'Syntax ERROR';
+      }
+
+      isResultDisplayed = true;
+      dmsMode = false;
+      fracMode = false;
+      engShift = 0;
+      updateDisplay();
+    }
+
+    // Keyboard Support
+    window.addEventListener('keydown', (e) => {
+      if (e.key >= '0' && e.key <= '9') handleNum(e.key);
+      else if (e.key === '.') handleDot();
+      else if (e.key === '+') handleOp('+');
+      else if (e.key === '-') handleOp('-');
+      else if (e.key === '*') handleOp('×');
+      else if (e.key === '/') { e.preventDefault(); handleOp('÷'); }
+      else if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); evaluateExpression(); }
+      else if (e.key === 'Backspace') pressDel();
+      else if (e.key === 'Escape') pressAc();
+      else if (e.key === 'ArrowLeft') moveCursor('LEFT');
+      else if (e.key === 'ArrowRight') moveCursor('RIGHT');
+      else if (e.key === 'ArrowUp') moveCursor('UP');
+      else if (e.key === 'ArrowDown') moveCursor('DOWN');
+    });
+
+    // --- Single-File PWA Setup (Canvas Icon + Dynamic Manifest + Service Worker) ---
+    function setupPWA() {
+      // 1. Generate 512x512 App Icon dynamically
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      // Dark slate casing background
+      ctx.fillStyle = '#22262e';
+      ctx.beginPath();
+      ctx.roundRect(0, 0, 512, 512, 96);
+      ctx.fill();
+
+      // LCD screen graphic
+      ctx.fillStyle = '#9ead86';
+      ctx.beginPath();
+      ctx.roundRect(56, 70, 400, 130, 20);
+      ctx.fill();
+
+      // Text on LCD
+      ctx.fillStyle = '#141c10';
+      ctx.font = 'bold 54px monospace';
+      ctx.fillText('fx-100MS', 85, 155);
+
+      // Keypad buttons graphic
+      const colors = ['#434b57', '#434b57', '#c84b61', '#5a6270', '#5a6270', '#e69f45'];
+      for (let r = 0; r < 2; r++) {
+        for (let c = 0; c < 3; c++) {
+          ctx.fillStyle = colors[r * 3 + c];
+          ctx.beginPath();
+          ctx.roundRect(64 + c * 136, 245 + r * 110, 112, 80, 16);
+          ctx.fill();
+        }
+      }
+
+      const iconUrl = canvas.toDataURL('image/png');
+
+      // Set Apple Touch Icon & Favicon
+      const appleIcon = document.createElement('link');
+      appleIcon.rel = 'apple-touch-icon';
+      appleIcon.href = iconUrl;
+      document.head.appendChild(appleIcon);
+
+      // 2. Inject Web App Manifest
+      const manifest = {
+        name: 'CASIO fx-100MS Scientific Calculator',
+        short_name: 'fx-100MS',
+        description: 'Realistic CASIO fx-100MS S-V.P.A.M. Scientific Calculator',
+        start_url: window.location.href,
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#0f172a',
+        theme_color: '#24292e',
+        icons: [
+          { src: iconUrl, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+          { src: iconUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+        ]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = URL.createObjectURL(manifestBlob);
+      document.head.appendChild(manifestLink);
+
+      // 3. Register Offline Service Worker
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        const swCode = `
+          const CACHE_NAME = 'casio-fx100ms-v1';
+          self.addEventListener('install', (e) => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', (e) => {
+            e.waitUntil(clients.claim());
+          });
+          self.addEventListener('fetch', (e) => {
+            e.respondWith(
+              caches.match(e.request).then((res) => {
+                return res || fetch(e.request).then((fetchRes) => {
+                  return caches.open(CACHE_NAME).then((cache) => {
+                    if (e.request.url.startsWith('http')) {
+                      cache.put(e.request, fetchRes.clone());
+                    }
+                    return fetchRes;
+                  });
+                });
+              }).catch(() => caches.match(e.request))
+            );
+          });
+        `;
+        const swBlob = new Blob([swCode], { type: 'application/javascript' });
+        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+      }
+
+      // 4. Handle Install Prompt Banner
+      let deferredPrompt;
+      const installBanner = document.getElementById('installBanner');
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBanner.classList.remove('hidden');
+      });
+
+      installBanner.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBanner.classList.add('hidden');
+        }
+        deferredPrompt = null;
+      });
+
+      window.addEventListener('appinstalled', () => {
+        installBanner.classList.add('hidden');
+      });
+    }
+
+    setupPWA();
+    updateDisplay();
+  </script>
+</body>
+</html>
